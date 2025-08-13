@@ -1,3 +1,4 @@
+using System;
 using System.CodeDom.Compiler;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,8 +14,6 @@ public class MapLocation
 {
     public int x;
     public int z;
-
-
 }
 
 
@@ -23,7 +22,7 @@ public class Maze : MonoBehaviour
     public List<MapLocation> directions = new List<MapLocation>();
     public int width = 30;
     public int depth = 30;
-    public byte[,] map;
+    public int[,] map;
     public int scale = 6;
 
     System.Random rng = new System.Random();
@@ -32,9 +31,37 @@ public class Maze : MonoBehaviour
     {
         SetMapLocation();
         initalisMap();
-        Generate();
+        //Generate();
         GenerateList(5, 5);
-        DrawMap();
+
+
+        string mapString = "";
+        for(int i = 0; i < map.GetLength(0); i++)
+        {
+            for (int j = 0; j < map.GetLength(1); j++)
+            {
+                //mapString += "i:" + i + j + ",Data:" + map[i, j].ToString() + ":,";
+                mapString += map[i, j].ToString() + ",";
+            }
+            mapString += "\n";
+        }
+        FileInOut.instance.SaveTxt(mapString);
+
+
+        //here fix p.62
+        string hul = FileInOut.instance.MazeLoadTxt();
+        string[] huk = hul.Split(',');
+
+        //반대로?
+        for(int i = 0; i < map.GetLength(0); i++)
+        {
+            for(int j = 0; j < map.GetLength(1); j++)
+            {
+                map[i, j] = int.Parse(huk[j + i * map.GetLength(0)]);
+            }
+        }
+
+        //DrawMap();
     }
 
 
@@ -64,7 +91,7 @@ public class Maze : MonoBehaviour
     }
     void initalisMap()
     {
-        map = new byte[width, depth];
+        map = new int[width, depth];
         for (int z = 0; z < depth; z++)
         {
             for (int x = 0; x < width; x++)
@@ -181,6 +208,7 @@ public class Maze : MonoBehaviour
 
                 if (!(CountSquareNeighbours(changeX, changeZ) >= 2 || map[changeX, changeZ] == 0))
                 {
+                    //mapdata 저장하는 부분 이걸 string으로 바꿔야함 string?
                     map[changeX, changeZ] = 0;
                     MapLocation tempData = new MapLocation();
                     tempData.x = changeX;
@@ -198,23 +226,4 @@ public class Maze : MonoBehaviour
         }
     }
 
-
-
-    //here fixed
-    public InputField mazeInput;
-    public Mazw outputMaze;
-
-
-    public void OnSaveText()
-    {
-        if (!string.IsNullOrEmpty(mazeInput.text))
-        {
-            FileInOut.instance.SaveTxt(mazeInput.text);
-            outputMaze.text = "txt 저장 완료";
-        }
-        else
-        {
-            outputMaze.text = "txt 저장 실패";
-        }
-    }
 }

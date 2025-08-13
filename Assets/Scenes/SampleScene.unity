@@ -949,6 +949,7 @@ MonoBehaviour:
   nameInput: {fileID: 1521486936}
   stageInput: {fileID: 166508812}
   scoreInput: {fileID: 2130123528}
+  mazeInput: {fileID: 0}
   outputText: {fileID: 105461427}
 --- !u!4 &508012156
 Transform:
@@ -1427,8 +1428,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc2e6c7a1cb2e04ebe8d38eb7f96267, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 30
-  depth: 30
+  width: 10
+  depth: 10
   scale: 6
 --- !u!4 &976052217
 Transform:

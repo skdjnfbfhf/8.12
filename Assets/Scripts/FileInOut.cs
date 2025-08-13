@@ -27,10 +27,7 @@ public class FileInOut : MonoBehaviour
     private void Awake()
     {
         instance = this;
-    }
 
-    private void Start()
-    {
         //다양한 플랫폼에서 ㅅ ㅏ ㅇ ㅛ ㅇ
         Debug.Log(Application.persistentDataPath);
         //횬쟈 여플리케이션 경로
@@ -38,6 +35,11 @@ public class FileInOut : MonoBehaviour
         folderPath = Path.Combine(Application.dataPath, folderName);
         txtPath = Path.Combine(Application.dataPath, folderName, textFileName);
         jsonPath = Path.Combine(Application.dataPath, folderName, jsonFileName);
+    }
+
+    private void Start()
+    {
+        
     }
 
     #region txt 파일
@@ -143,6 +145,23 @@ public class FileInOut : MonoBehaviour
     }
     #endregion
 
+    //here
 
+    public void SaveMazeTxt(string folderName)
+    {
+        CreateFolder();
+        File.WriteAllText(txtPath, folderName);
+
+        Debug.Log("Maze txt 파일 저장 완료");
+    }
+    public string MazeLoadTxt()
+    {
+        if (File.Exists(txtPath))
+        {
+            return File.ReadAllText(txtPath);
+        }
+        Debug.Log("Maze txt 파일 로드 실패");
+        return null;
+    }
 
 }

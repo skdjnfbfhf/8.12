@@ -13,6 +13,8 @@ public class FileManager : MonoBehaviour
     public InputField nameInput;
     public InputField stageInput;
     public InputField scoreInput;
+    //here one
+    public InputField mazeInput;
     public Text outputText;
 
 
@@ -109,10 +111,40 @@ public class FileManager : MonoBehaviour
         }
     }
 
+
+    //here fixed
     public void OnDeleteJson()
     {
         FileInOut.instance.DeleteJson();
         outputText.text = "JSON 삭제 완료!";
     }
-    
+
+    public void OnMazeSaveText()
+    {
+        if (!string.IsNullOrEmpty(mazeInput.text))
+        {
+            FileInOut.instance.SaveTxt(mazeInput.text);
+            outputText.text = "txt 저장 완료";
+        }
+        else
+        {
+            outputText.text = "txt 저장 실패";
+        }
+    }
+
+    public void OnMazeLoadText()
+    {
+        string result = FileInOut.instance.MazeLoadTxt();
+
+        if (result != null)
+        {
+            outputText.text = result;
+        }
+        else
+        {
+            outputText.text = "text 파일 로드 실패";
+        }
+
+    }
+
 }
